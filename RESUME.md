@@ -8,7 +8,7 @@
 ---
 
 ## Professional Summary
-Data Science graduate student with hands-on experience in data analysis, process improvement, and technical support. Strong background in Python, SQL, Power BI, and workflow optimization, with proven impact through data-driven insights and operational improvements.
+Data Science graduate student with hands-on experience in data analysis, process improvement and technical support. Strong background in Python, SQL, Power BI and workflow optimization, with proven impact through data-driven insights and operational improvements.
 
 ---
 
