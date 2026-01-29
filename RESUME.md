@@ -36,10 +36,10 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 ## Skills
 
 ### Data Analysis & Analytics
-- Data cleaning, validation, and exploratory data analysis (EDA)
-- Statistical analysis, trend analysis, and hypothesis testing
+- Data cleaning, validation and exploratory data analysis (EDA)
+- Statistical analysis, trend analysis and hypothesis testing
 - Data modeling and feature engineering
-- Reporting, dashboarding, and insights generation
+- Reporting, dashboarding and insights generation
 
 ### Data Science & Machine Learning
 - Python (Pandas, NumPy, Scikit-learn)
@@ -55,10 +55,10 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 - Microsoft Excel (advanced formulas, PivotTables, data analysis)
 
 ### Databases & Data Engineering
-- SQL, MySQL
+- MySQL
 - MongoDB
 - ETL processes
-- Data extraction, transformation, and loading
+- Data extraction, transformation and loading
 - Big Data platforms (foundational knowledge)
 
 ### Process Improvement & Methodologies
@@ -74,8 +74,6 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 - SharePoint, Confluence (documentation, knowledge management)
 - Lucidchart (process flows, diagrams)
 - Jira
-- Microsoft Teams
-
 ---
 
 ## Work Experience
