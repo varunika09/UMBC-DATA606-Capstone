@@ -33,41 +33,48 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 
 ---
 
-## Technical Skills
+## Skills
 
-### Process & Methodologies
-- Process Engineering, Process Mapping  
-- Lean Principles, Six Sigma  
-- Continuous Improvement  
-- Workflow Analysis, Root Cause Analysis  
-- SOP Development  
-
-### Data Analysis & Visualization
-- Power BI, Power Query  
-- Excel (Advanced)  
-- DAX, Data Modeling  
-- Statistical & Trend Analysis  
+### Data Analysis & Analytics
+- Data cleaning, validation, and exploratory data analysis (EDA)
+- Statistical analysis, trend analysis, and hypothesis testing
+- Data modeling and feature engineering
+- Reporting, dashboarding, and insights generation
 
 ### Data Science & Machine Learning
-- Python (Pandas, NumPy, Scikit-learn)   
-- Predictive Modeling  
-- Regression, Classification, Clustering  
-- Natural Language Processing (NLTK)  
-- Deep Learning  
-- Feature Engineering, Model Evaluation  
+- Python (Pandas, NumPy, Scikit-learn)
+- Supervised & unsupervised learning (Regression, Classification, Clustering)
+- Predictive modeling and model evaluation
+- Natural Language Processing (NLTK)
+- Deep Learning fundamentals
 
-### Databases & Big Data
-- MySQL  
-- MongoDB  
-- ETL Processes  
-- Big Data Platforms  
+### Business Intelligence & Visualization
+- Power BI (Dashboards, Reports)
+- Power Query
+- DAX
+- Microsoft Excel (advanced formulas, PivotTables, data analysis)
+
+### Databases & Data Engineering
+- SQL, MySQL
+- MongoDB
+- ETL processes
+- Data extraction, transformation, and loading
+- Big Data platforms (foundational knowledge)
+
+### Process Improvement & Methodologies
+- Process engineering and workflow optimization
+- Process mapping and documentation
+- Lean principles and Six Sigma
+- Root cause analysis
+- SOP development and continuous improvement
 
 ### Tools & Platforms
-- Smartsheet, SharePoint, Confluence  
-- Lucidchart  
-- ServiceNow  
-- Microsoft Teams  
-- Jira  
+- ServiceNow (ITSM, ticketing, SLA tracking)
+- Smartsheet (workflow automation, reporting)
+- SharePoint, Confluence (documentation, knowledge management)
+- Lucidchart (process flows, diagrams)
+- Jira
+- Microsoft Teams
 
 ---
 
