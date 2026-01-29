@@ -49,8 +49,7 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 - Statistical & Trend Analysis  
 
 ### Data Science & Machine Learning
-- Python (Pandas, NumPy, Scikit-learn)  
-- R  
+- Python (Pandas, NumPy, Scikit-learn)   
 - Predictive Modeling  
 - Regression, Classification, Clustering  
 - Natural Language Processing (NLTK)  
@@ -58,7 +57,7 @@ Statistics, Calculus, Database Management Systems, Web Programming, Hypothesis T
 - Feature Engineering, Model Evaluation  
 
 ### Databases & Big Data
-- SQL, MySQL  
+- MySQL  
 - MongoDB  
 - ETL Processes  
 - Big Data Platforms  
