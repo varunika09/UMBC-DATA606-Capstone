@@ -4,7 +4,6 @@
 📧 varunikabussa09@gmail.com  
 🔗 LinkedIn: https://www.linkedin.com/in/bussa-varunika-99a837233/
 
-![Varunika Bussa](headshot.jpeg)
 
 ---
 
