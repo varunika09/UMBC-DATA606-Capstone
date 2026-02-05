@@ -34,7 +34,7 @@ A Streamlit web app is the final product. It supports **semi-dynamic data update
 
 ---
 
-## What are ETFs? (Simple explanation)
+## What are ETFs?
 An **ETF (Exchange-Traded Fund)** is a single investment that contains a **basket of many assets**.  
 For example, a broad U.S. stock ETF may hold hundreds/thousands of companies. ETFs are widely used because they:
 - provide **diversification**
@@ -81,14 +81,14 @@ This capstone demonstrates practical data science skills used in decision-suppor
 This project uses **public, free financial time-series data**:
 
 ### A) Historical ETF Market Data (Primary)
-- Source: **Yahoo Finance** (retrieved programmatically via Python; e.g., `yfinance`)
-- Data pulled: **Adjusted Close** prices (and optionally Open/High/Low/Close/Volume)
+- Source: **Yahoo Finance** (retrieved programmatically via Python; example: `yfinance`)
+- Data pulled: **Adjusted Close** prices (and Open/High/Low/Close/Volume)
 
-### B) Macro-Economic Data (Optional, for scenarios)
+### B) Macro-Economic Data (for scenarios)
 - Source: **FRED (Federal Reserve Economic Data)**  
 - Example series:
-  - CPI (inflation) for converting goal into real dollars (optional)
-  - interest rates / unemployment for scenario narratives (optional)
+  - CPI (inflation) for converting goal into real dollars
+  - interest rates / unemployment for scenario narratives
 
 ---
 
@@ -97,7 +97,7 @@ Approximate size depends on tickers and time range, but is small and manageable:
 
 - ETFs used: **4–6 tickers** (diversified asset universe)
 - History: typically **10–20 years** of daily prices per ETF
-- Size on disk: usually **< 5–50 MB** total as CSV/Parquet (very lightweight)
+- Size on disk: usually **< 50 MB** total as CSV
 
 ---
 
@@ -162,6 +162,8 @@ Depending on processing stage:
 | start_amount | float | Starting principal | non-negative real |
 | monthly_contribution | float | Monthly deposit amount | non-negative real |
 | risk_tolerance | categorical | Risk preference | {Conservative, Balanced, Aggressive} |
+| max_drawdown_pct | float| Maximum loss the user is willing to tolerate during the investment period | 0–100 (%)|
+
 
 ---
 
