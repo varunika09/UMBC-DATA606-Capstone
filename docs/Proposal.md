@@ -1,7 +1,7 @@
 # 1. Title and Author
 
 ## Project Title
-**Goal-Based Portfolio Recommendation System with Probabilistic Simulation and Risk-Aware Allocation (Streamlit App)**
+**Goal-Driven Portfolio Optimization Using Probabilistic Simulation and Risk-Aware Decision Support**
 
 Prepared for **UMBC Data Science Master Degree Capstone** by **Dr Chaojie (Jay) Wang**
 
