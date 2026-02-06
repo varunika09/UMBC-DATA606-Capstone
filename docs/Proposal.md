@@ -1,5 +1,3 @@
-# 1. Title and Author
-
 ## Project Title
 **Goal-Driven Portfolio Optimization Using Probabilistic Simulation and Risk-Aware Decision Support**
 
