@@ -1,210 +1,161 @@
-## Project Title
-**Goal-Driven Portfolio Optimization Using Probabilistic Simulation and Risk-Aware Decision Support**
+# Early Sepsis Detection from ICU Time-Series (PhysioNet 2019) using Aggregated Clinical Features
 
-Prepared for **UMBC Data Science Master Degree Capstone** by **Dr Chaojie (Jay) Wang**
-
-## Author Name
-**Varunika Bussa**
-
-## Links
-- GitHub Repo: *https://github.com/varunika09/UMBC-DATA606-Capstone.git*  
-- LinkedIn: *www.linkedin.com/in/varunika-bussa-99a837233*  
-- PowerPoint Presentation:  
-- YouTube Video:
+Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang  
+Author: Varunika Bussa  
+GitHub Repo: [https://github.com/varunika09/UMBC-DATA606-Capstone.git]  
+LinkedIn: [www.linkedin.com/in/varunika-bussa-99a837233]  
+Slides: [To be added]  
+YouTube: [To be added]  
 
 ---
 
-# 2. Background
+## 1. Background
 
-## What is it about?
-This project builds a **goal-based portfolio recommendation system** that helps users plan investments for real-life goals such as:
-- **Down payment** (short-to-medium term)
-- **Emergency fund** (short term, low risk)
-- **Retirement** (long term, growth oriented)
+### What is this project about?
+Sepsis is a life-threatening condition where the body’s response to infection can cause organ dysfunction. In ICU settings, detecting sepsis early is critical because early treatment can significantly improve outcomes. This capstone project builds a machine learning system that predicts **sepsis onset** using **hourly ICU measurements** (vital signs, lab tests, and demographics).
 
-Instead of recommending “stocks to buy,” the system recommends a **portfolio allocation** across a small set of **ETFs** (Exchange-Traded Funds) and shows:
+This project uses the PhysioNet 2019 Sepsis Challenge dataset where each patient has a time series of clinical measurements over their ICU stay. Each hour includes measurements (often with missing values), and a label indicates whether the patient is in the sepsis onset window according to a Sepsis-3–based definition.
 
-- **Probability of reaching the user’s goal** by the chosen date  
-- **Risk metrics** such as worst-case outcomes and maximum drawdowns  
-- **Actionable suggestions** to improve success probability (e.g., increase monthly contribution, extend timeline, choose a safer allocation)
+### Why does it matter?
+- **Patient impact:** Earlier identification can support faster clinical intervention.
+- **Hospital impact:** False alarms consume limited ICU resources, while late prediction can be dangerous.
+- **Industry relevance:** Predictive modeling for clinical deterioration is a major real-world application of ML in healthcare, with strong emphasis on interpretability and evaluation under class imbalance.
 
-A Streamlit web app is the final product. It supports **semi-dynamic data updates** (using a “Refresh Market Data” button) so recommendations can update over time.
-
----
-
-## What are ETFs?
-An **ETF (Exchange-Traded Fund)** is a single investment that contains a **basket of many assets**.  
-For example, a broad U.S. stock ETF may hold hundreds/thousands of companies. ETFs are widely used because they:
-- provide **diversification**
-- reduce single-company risk compared to picking individual stocks
-- are liquid and publicly traded like a stock
-
-In this project, ETFs represent different asset classes (e.g., stocks, bonds, gold) to build diversified portfolios.
+### Research questions
+1. Can we accurately predict `SepsisLabel` using ICU vitals, labs, and demographics at the hourly level?
+2. Which clinical measurements and trends (e.g., rising heart rate, low blood pressure, elevated lactate) are most predictive of sepsis onset?
+3. How do different ML models perform under class imbalance (baseline vs tree-based models)?
+4. Can we provide interpretable explanations (feature importance / SHAP) to support clinical understanding of predictions?
 
 ---
 
-## Why does it matter?
-Most people struggle with these real planning questions:
-- “Is my goal achievable with my current savings and monthly contributions?”
-- “How risky is my plan? What is the worst-case outcome?”
-- “What should I change to increase my chance of success?”
+## 2. Data
 
-Typical portfolio tools focus on “best returns,” but real users need **goal success probability** and **risk-under-uncertainty**.  
-This capstone demonstrates practical data science skills used in decision-support systems:
-- probabilistic simulation
-- optimization under constraints
-- scenario analysis
-- explainability and user-centric design
+### Data source
+**PhysioNet / Computing in Cardiology Challenge 2019: Early Prediction of Sepsis from Clinical Data**  
+Dataset landing page: https://physionet.org/content/challenge-2019/1.0.0/  
+The challenge repository provides **one file per patient** (e.g., `p00101.psv`).
 
----
+### Data size
+According to the dataset description, the complete training database is approximately **42 MB** (two parts).  
+In the Kaggle mirror/download, the packaged size may appear larger due to packaging/versioning, but the underlying patient files and variables are the same.
 
-## Research Questions
-1. **Goal Success Prediction:** Given a user’s goal amount, timeline, starting amount, and monthly contributions, what is the **probability of achieving the goal** under different ETF allocations?
-2. **Risk-Aware Recommendation:** Which portfolio allocation maximizes goal success probability while meeting user risk constraints (e.g., drawdown tolerance)?
-3. **Sensitivity & What-if Analysis:** How do probability of success and risk change under scenario changes such as:
-   - reduced contributions
-   - shorter/longer horizon
-   - market downturn stress tests
-   - inflation adjustments (optional)?
-4. **Explainability:** Can the system provide clear, plain-English explanations for:
-   - why a portfolio is recommended
-   - what trade-offs exist between risk and probability
-   - what actions improve success probability?
+### Data shape
+The training data consists of:
+- **Training set A:** 20,336 subjects  
+- **Training set B:** 20,000 subjects  
+- **Total:** 40,336 subjects (one file per subject)
 
----
+Each patient file contains:
+- A variable number of rows (hours in ICU).
+- A fixed set of columns (clinical variables + label).
 
-# 3. Data
+Because each patient has a different ICU length of stay, the overall dataset size is best described as:
+- **~40k patient files**
+- **Hundreds of thousands to millions of hourly records** (to be reported after loading and aggregation)
 
-## Data Sources
-This project uses **public, free financial time-series data**:
+### Time period
+The dataset is **de-identified**. Time is represented through:
+- `ICULOS` = ICU length of stay in hours since ICU admission  
+This supports time-aware modeling without real calendar dates.
 
-### A) Historical ETF Market Data (Primary)
-- Source: **Yahoo Finance** (retrieved programmatically via Python; example: `yfinance`)
-- Data pulled: **Adjusted Close** prices (and Open/High/Low/Close/Volume)
+### What does each row represent?
+Each row represents:
+> **One hour of ICU monitoring for one patient** (a “patient-hour”).
 
-### B) Macro-Economic Data (for scenarios)
-- Source: **FRED (Federal Reserve Economic Data)**  
-- Example series:
-  - CPI (inflation) for converting goal into real dollars
-  - interest rates / unemployment for scenario narratives
+Example format:
+`HR | O2Sat | Temp | ... | HospAdmTime | ICULOS | SepsisLabel`
+
+Missing values (`NaN`) indicate that a measurement was not recorded in that hour (common in ICU data, especially labs).
 
 ---
 
-## Data Size
-Approximate size depends on tickers and time range, but is small and manageable:
+## 3. Variables, Target, and Features
 
-- ETFs used: **4–6 tickers** (diversified asset universe)
-- History: typically **10–20 years** of daily prices per ETF
-- Size on disk: usually **< 50 MB** total as CSV
+### Data dictionary (column groups)
+Each patient-hour file contains **41 total columns**:
 
----
-
-## Data Shape
-Two main datasets will be created:
-
-### 1) Raw Price Table (per ETF)
-- Rows: ~2,500–5,000 trading days per ETF (10–20 years)
-- Columns: typically 6–7 (Date + OHLCV + Adjusted Close)
-
-### 2) Combined Portfolio Modeling Table (derived)
-After merging ETFs by Date and computing returns:
-- Rows: number of trading days (or months if resampled monthly)
-- Columns: one return column per ETF + engineered risk features
-
----
-
-## Time Period
-Time-bound dataset based on selected window, for example:
-- **2010-01-01 to present** (depending on ETF availability)
-A “semi-dynamic refresh” option will allow updates to the most recent date.
-
----
-
-## What does each row represent?
-Depending on processing stage:
-
-- In the **price dataset**: one row represents **one trading day** for an ETF.
-- In the **returns dataset**: one row represents **one time step** (daily or monthly) of returns used for simulation.
-
----
-
-## Data Dictionary
-
-### A) Yahoo Finance Price Data (typical columns)
-| Column Name | Data Type | Definition | Potential Values |
+#### Vital signs (8)
+| Column | Type | Definition | Typical values |
 |---|---|---|---|
-| Date | date | Trading date | YYYY-MM-DD |
-| Open | float | Opening price for the day | positive real |
-| High | float | Highest price for the day | positive real |
-| Low | float | Lowest price for the day | positive real |
-| Close | float | Closing price for the day | positive real |
-| Adj Close | float | Closing price adjusted for splits/dividends | positive real |
-| Volume | int | Number of shares traded | non-negative integer |
+| HR | float | Heart rate (beats/min) | continuous |
+| O2Sat | float | Pulse oximetry (%) | 0–100 |
+| Temp | float | Temperature (°C) | continuous |
+| SBP | float | Systolic blood pressure (mm Hg) | continuous |
+| MAP | float | Mean arterial pressure (mm Hg) | continuous |
+| DBP | float | Diastolic blood pressure (mm Hg) | continuous |
+| Resp | float | Respiratory rate (breaths/min) | continuous |
+| EtCO2 | float | End tidal CO2 (mm Hg) | continuous |
 
-### B) Derived Returns / Features (computed in notebook)
-| Column Name | Data Type | Definition | Potential Values |
+#### Laboratory values (26)
+Examples include:
+- Lactate, Creatinine, BUN, Glucose, WBC, Platelets, pH, PaCO2, etc.
+All are numeric continuous lab measurements recorded intermittently.
+
+#### Demographics / administrative / time variables (6)
+| Column | Type | Definition | Values |
 |---|---|---|---|
-| <TICKER>_ret | float | Period return for ETF (daily or monthly) | real (can be negative) |
-| rolling_vol | float | Rolling volatility estimate (e.g., 30-day or 12-month) | non-negative real |
-| rolling_corr_* | float | Rolling correlations between assets | [-1, 1] |
-| portfolio_value | float | Simulated portfolio value over time | non-negative real |
-| drawdown | float | % drop from peak portfolio value | [0, 1] |
-| max_drawdown | float | Maximum drawdown over simulation path | [0, 1] |
+| Age | float | Age in years (100 for age ≥ 90) | continuous |
+| Gender | int | 0 female, 1 male | {0,1} |
+| Unit1 | int | ICU unit identifier | {0,1} |
+| Unit2 | int | ICU unit identifier | {0,1} |
+| HospAdmTime | float | Hours between hospital admit and ICU admit | continuous |
+| ICULOS | int | ICU length-of-stay in hours | positive integer |
 
-### C) User Input Variables (captured in Streamlit)
-| Variable | Data Type | Definition | Potential Values |
+#### Outcome label (1)
+| Column | Type | Definition | Values |
 |---|---|---|---|
-| goal_type | categorical | Type of user goal | {Emergency, DownPayment, Retirement} |
-| target_amount | float | Goal amount in dollars | positive real |
-| horizon_months | int | Investment duration in months | positive integer |
-| start_amount | float | Starting principal | non-negative real |
-| monthly_contribution | float | Monthly deposit amount | non-negative real |
-| risk_tolerance | categorical | Risk preference | {Conservative, Balanced, Aggressive} |
-| max_drawdown_pct | float| Maximum loss the user is willing to tolerate during the investment period | 0–100 (%)|
+| SepsisLabel | int | Sepsis onset indicator (Sepsis-3–based) | {0,1} |
 
+### Target/label for ML model
+**Target variable:** `SepsisLabel`  
+- `1` indicates the patient is in the sepsis onset window  
+- `0` indicates no sepsis label at that hour  
 
----
+This project will predict `SepsisLabel` at the hourly level (patient-hour prediction).
 
-## What is the target/label in the ML model?
-This project is primarily a **simulation + optimization** decision-support system, but we define clear targets for evaluation and modeling:
+### Clinically meaningful predictors (medical intuition)
+Sepsis and clinical deterioration often correlate with patterns such as:
+- **Hemodynamic instability:** low blood pressure (SBP/MAP/DBP), rising heart rate (HR)
+- **Respiratory stress:** increased Resp, lower oxygen saturation (O2Sat)
+- **Perfusion/organ stress:** elevated **Lactate**, kidney markers (Creatinine/BUN), acid-base markers (pH, BaseExcess, HCO3)
+- **Inflammation/infection response:** abnormal **WBC**, platelet changes, fever/hypothermia via Temp
 
-### Primary Target (Binary)
-- **goal_success**: whether the final simulated portfolio value meets or exceeds the target amount at the end of the horizon  
-  - Values: {0 = not achieved, 1 = achieved}
+The model will not “diagnose” sepsis directly; it will learn statistical relationships between these measurements and the provided `SepsisLabel`.
 
-### Secondary Targets (Continuous / Risk outcomes)
-- **ending_wealth**: final portfolio value at horizon
-- **max_drawdown**: worst peak-to-trough loss during the horizon
-- **success_probability**: proportion of simulations where goal_success = 1
+### Features/predictors used for modeling (engineered tabular features)
+To make the time-series usable for standard ML models (LogReg / RandomForest / XGBoost), hourly values will be converted into robust features, including:
 
----
+**1) Current snapshot features**
+- Latest available values (e.g., HR at hour t, MAP at hour t)
 
-## Which variables may be selected as features/predictors?
-Features come from both market data and user inputs:
+**2) Rolling window statistics (time-aware features)**
+For the last 3–6 hours (configurable), compute:
+- Mean / min / max / standard deviation
+- Trends (difference vs 3 hours ago; slope proxy)
 
-### Market-derived features
-- historical returns per ETF
-- rolling volatility per ETF
-- rolling correlations among ETFs
-- scenario modifiers (optional: inflation-adjusted returns using CPI)
+**3) Missingness indicators**
+Because missing values are informative in ICU workflows (labs not measured every hour), add:
+- “was_measured” flags per variable
+- counts of missing values in last window
 
-### User-input features
-- goal type
-- target amount
-- horizon
-- starting amount
-- monthly contribution
-- risk tolerance / drawdown limit
+**4) Patient context features**
+- Age, Gender, Unit1/Unit2, HospAdmTime, ICULOS
 
-These features influence:
-- portfolio constraints (e.g., limit equity allocation for conservative short-term goals)
-- optimization objective (maximize success probability subject to risk constraints)
+### Planned ML models (for proposal)
+- **Baseline:** Logistic Regression (interpretable baseline)
+- **Nonlinear models:** Random Forest, XGBoost (strong for tabular + missingness patterns)
+- **Evaluation:** ROC-AUC + Precision-Recall AUC, Recall/F1 (important under class imbalance)
+- **Interpretability:** feature importance and SHAP to explain top drivers of risk predictions
 
 ---
 
-## Notes on Dataset Collection and Storage (per project requirements)
-- Datasets will be fetched and stored in: `data/`
-  - Example outputs: `data/prices.csv`, `data/returns.csv`, `data/meta.json`
-- Exploratory data analysis and feature engineering will be performed in: `notebooks/`
-  - Example notebook: `notebooks/01_data_exploration.ipynb`
-- The Streamlit application will use the stored snapshot by default and allow optional updates via a refresh button.
+## Final product (Streamlit)
+A Streamlit prototype that allows a user to:
+- Select or input a patient snapshot (current hour vitals/labs/demographics)
+- Get predicted **sepsis risk (probability)** and classification (0/1)
+- View explanation of which factors contributed most to the prediction (e.g., lactate, MAP trend, HR trend)
+
+This demonstrates an interpretable early-warning ML workflow suitable for healthcare analytics contexts.
+
+---
