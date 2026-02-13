@@ -1,4 +1,4 @@
-# Early Sepsis Detection from ICU Time-Series Using Aggregated Clinical Features (Streamlit ML App)
+# Early Sepsis Detection from ICU Time-Series Using Aggregated Clinical Features
 
 Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang  
 Author: Varunika Bussa  
