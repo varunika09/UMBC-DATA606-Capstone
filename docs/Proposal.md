@@ -6,8 +6,6 @@ by Dr. Chaojie (Jay) Wang
 **Author:** Your Name  
 **GitHub Repository:** [(https://github.com/varunika09/UMBC-DATA606-Capstone.git)]  
 **LinkedIn Profile:** [www.linkedin.com/in/varunika-bussa-99a837233]  
-**PowerPoint Presentation:** [Add Link]  
-**YouTube Demo:** [Add Link]  
 
 ---
 
