@@ -115,9 +115,17 @@ Because missingness is informative in clinical workflows:
 ---
 
 ## Final Product (Streamlit)
-A Streamlit web app that allows a user to:
-- Choose a patient and ICU hour (or input features for a snapshot)
-- Receive a predicted sepsis risk (probability) and classification (0/1)
-- View an explanation of key contributing factors (top features)
 
-This functions as a lightweight, interpretable early-warning prototype.
+The final deliverable will be an interactive Streamlit web application that serves as a lightweight early-warning prototype for sepsis risk prediction.
+
+The application will allow a user to:
+
+- Select a Patient_ID and corresponding ICU hour (or use the latest available clinical snapshot)
+
+- Automatically generate aggregated clinical features from recent vital signs and laboratory values
+
+- Receive a predicted probability of sepsis along with a binary classification (Sepsis / No Sepsis)
+
+- View a clear explanation of the most influential clinical variables contributing to the prediction (e.g., elevated heart rate, abnormal MAP, rising lactate)
+
+The system is designed to demonstrate how interpretable machine learning models can support clinical decision-making by providing transparent, data-driven risk assessments in an ICU setting.
