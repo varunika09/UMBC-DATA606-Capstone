@@ -1,131 +1,267 @@
-# Early Sepsis Detection from ICU Time-Series Using Aggregated Clinical Features
+# Early Sepsis Risk Prediction Using ICU Clinical Data
 
-Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang  
-Author: Varunika Bussa  
-GitHub Repo: https://github.com/varunika09/UMBC-DATA606-Capstone.git
-LinkedIn: www.linkedin.com/in/varunika-bussa-99a837233  
-Slides: [To be added]  
-YouTube: [To be added]  
+Prepared for UMBC Data Science Master Degree Capstone  
+by Dr. Chaojie (Jay) Wang  
 
----
-
-## 1. Background
-
-### What is this project about?
-Sepsis is a life-threatening condition caused by an extreme response to infection that can lead to organ dysfunction and death if not identified early. In ICU settings, early detection is critical because timely intervention can significantly improve outcomes.
-
-This project builds a machine learning model that predicts **SepsisLabel** (0/1) using hourly ICU measurements (vitals, labs, demographics, and ICU timing variables). The dataset is based on the PhysioNet 2019 Sepsis Prediction Challenge, where the label corresponds to the onset window of sepsis according to a Sepsis-3–based definition.
-
-Rather than using deep sequence models, the project converts patient time-series into **aggregated time-window features** (e.g., rolling averages, trends, and variability over the last 3–6 hours), enabling strong and interpretable tabular ML models (e.g., Logistic Regression, Random Forest, XGBoost).
-
-### Why does it matter?
-- **Clinical impact:** Sepsis can deteriorate quickly; delays increase risk of mortality.
-- **Operational impact:** False alarms waste limited hospital resources, while late predictions can be harmful.
-- **Industry relevance:** Early warning systems are a major real-world application of ML in healthcare, where interpretability and imbalance-aware evaluation matter.
-
-### Research questions
-1. Can we accurately predict **SepsisLabel** using ICU vitals, labs, and patient context at the hourly level?
-2. Which measurements and short-term trends are most predictive of sepsis onset (e.g., rising HR, falling MAP, elevated lactate)?
-3. Which ML model performs best on this task under severe class imbalance?
-4. Can model explanations (feature importance / SHAP) highlight clinically meaningful predictors?
+**Author:** Your Name  
+**GitHub Repository:** [(https://github.com/varunika09/UMBC-DATA606-Capstone.git)]  
+**LinkedIn Profile:** [www.linkedin.com/in/varunika-bussa-99a837233]  
+**PowerPoint Presentation:** [Add Link]  
+**YouTube Demo:** [Add Link]  
 
 ---
 
-## 2. Data
+# 1. Background
 
-### Data source
-PhysioNet / Computing in Cardiology Challenge 2019: Early Prediction of Sepsis from Clinical Data  
+## What is this project about?
+
+This project focuses on the early prediction of sepsis in ICU patients using machine learning.
+
+Sepsis is a life-threatening condition caused by the body’s extreme response to infection. If not detected early, it can lead to organ failure and death. Early intervention significantly improves survival rates.
+
+The goal of this project is to build a predictive model that estimates whether a patient is at risk of developing sepsis using routinely collected ICU vital signs and laboratory measurements.
+
+---
+
+## Why does it matter?
+
+- Sepsis is a leading cause of ICU mortality worldwide.
+- Early detection reduces mortality and hospital costs.
+- Hospitals collect large volumes of patient monitoring data, but automated risk scoring systems are not always implemented.
+- A machine learning–based early warning system can support clinical decision-making.
+
+This project demonstrates how data science can directly contribute to healthcare impact.
+
+---
+
+## Research Questions
+
+1. Can ICU vital signs and lab values predict sepsis onset?
+2. Which physiological measurements are most predictive of sepsis?
+3. Can we build an interpretable model suitable for clinical decision support?
+4. How well does the model generalize to unseen patients?
+
+---
+
+# 2. Data
+
+## Data Source
+
+This project uses the **PhysioNet 2019 Sepsis Challenge Dataset**:
+
 https://physionet.org/content/challenge-2019/1.0.0/
 
-Original challenge data is provided as **one file per patient** (PSV). For this project, a trusted flattened version (`Dataset.csv`) is used, containing all patient-hour records from Training Set A and B with a patient identifier.
+This dataset contains ICU time-series clinical measurements collected from hospital systems.
 
-### Data size
-- Total patient-hour records: **1,552,210 rows**
-- Total columns: **44 columns** (including identifiers and outcome label)
+---
+
+## Data Size
+
+- Total rows: **1,552,210**
+- Total columns: **44**
 - Unique patients: **40,336**
-- Positive label prevalence (`SepsisLabel=1`): **27,916 rows (~1.80%)**
-- Negative label prevalence (`SepsisLabel=0`): **1,524,294 rows (~98.20%)**
+- Sepsis positive rows: **27,916**
+- Sepsis rate (rows): ~**1.8%**
 
-This indicates a **highly imbalanced classification problem**, consistent with real sepsis prediction tasks.
+The dataset reflects real-world clinical imbalance.
 
-### Time representation
-The dataset is de-identified. Time is represented as:
-- `ICULOS`: ICU length-of-stay in hours since ICU admission
-- A patient-hour row corresponds to measurements captured at a given ICU hour.
+---
 
-### What does each row represent?
+## What does each row represent?
+
 Each row represents:
-> One hour of ICU monitoring for one patient (“patient-hour”).
 
-Measurements may be missing (`NaN`) when a variable was not recorded during that hour, which is common in ICU settings (especially for lab tests).
+- A single ICU hour
+- For a specific Patient_ID
+- With measurements recorded during that hour
+
+Each patient has multiple hourly records.
 
 ---
 
-## 3. Variables, Target, and Features
+## Data Structure
 
-### Target variable (label)
-**Target column:** `SepsisLabel`  
-- `1` indicates the patient is in the sepsis onset window (Sepsis-3–based definition per challenge)  
-- `0` indicates no sepsis label at that hour
+The dataset includes:
 
-This project predicts `SepsisLabel` directly using information available up to that hour.
+### 1. Vital Signs
 
-### Key clinical predictors (medical intuition)
-Sepsis onset often correlates with patterns such as:
-- **Hemodynamic instability:** decreasing blood pressure (SBP/MAP/DBP) and compensatory higher HR
-- **Respiratory stress:** increased Resp and reduced oxygenation (O2Sat)
-- **Perfusion and metabolic stress:** elevated **Lactate**, acid-base imbalance (pH, HCO3, BaseExcess)
-- **Inflammation/infection response:** abnormal **WBC**, platelet changes, and temperature abnormalities
-- **Organ dysfunction signals:** elevated Creatinine/BUN (kidney stress), bilirubin (liver involvement)
+- HR (Heart rate)
+- O2Sat (Oxygen saturation)
+- Temp (Temperature)
+- SBP (Systolic blood pressure)
+- MAP (Mean arterial pressure)
+- DBP (Diastolic blood pressure)
+- Resp (Respiratory rate)
+- EtCO2 (End tidal CO2)
 
-The model learns statistical relationships between these measurements and `SepsisLabel` rather than explicitly applying clinical rules.
+---
 
-### Feature selection and aggregation (what will feed the ML models)
-The raw dataset is hourly time-series. To support strong and interpretable ML, features will be engineered using short time windows (e.g., last 3–6 hours), including:
+### 2. Laboratory Values
 
-1) **Current snapshot features**
-- Latest recorded values at hour t (e.g., HR(t), MAP(t), Lactate(t))
+Examples include:
 
-2) **Aggregated window statistics (trend + stability)**
-For each selected variable over the last N hours:
-- mean, min, max, standard deviation
-- trend (value at t minus value at t-N)
+- Lactate
+- WBC (White blood cell count)
+- Creatinine
+- Bilirubin
+- Platelets
+- Glucose
+- BUN
+- Hemoglobin
+- Hematocrit
+- pH
+- PaCO2
+- TroponinI
 
-3) **Missingness features**
-Because missingness is informative in clinical workflows:
-- measurement present flag per variable
-- count of missing values within the window
+These biomarkers are clinically relevant for infection and organ dysfunction.
 
-4) **Patient context features**
-- Age, Gender, ICU unit indicators (Unit1/Unit2), HospAdmTime, ICULOS
+---
 
-### Models (straightforward ML, professor-friendly)
-- **Baseline:** Logistic Regression
-- **Tree-based:** Random Forest
-- **Boosted trees:** XGBoost
+### 3. Demographics
 
-### Evaluation metrics (imbalance-aware)
+- Age
+- Gender (0 = Female, 1 = Male)
+- Unit1
+- Unit2
+- HospAdmTime
+- ICULOS (ICU length of stay in hours)
+
+---
+
+## Target Variable
+
+- **SepsisLabel**
+  - 1 = Sepsis
+  - 0 = No sepsis
+
+This is the classification label for the ML model.
+
+---
+
+# Feature Engineering
+
+The original data is time-series (hourly measurements).  
+To simplify modeling, the data will be converted into aggregated tabular features.
+
+For each patient-hour, summary statistics will be computed over recent windows (e.g., last 6 hours):
+
+- Mean HR
+- Maximum temperature
+- Minimum MAP
+- Lactate trend
+- Change in WBC
+- Variability measures
+- Missingness indicators
+
+This allows:
+
+- Capturing physiological trends
+- Reducing time-series complexity
+- Using interpretable ML models
+- Maintaining clinical relevance
+
+---
+
+# Data Splitting Strategy
+
+Data will be split by **Patient_ID** into:
+
+- Training set
+- Validation set
+- Test set
+
+This prevents leakage across time steps from the same patient.
+
+The held-out test set will simulate unseen ICU patients.
+
+---
+
+# 3. Modeling
+
+## Predictive Task
+
+Binary classification:
+
+Predict whether:
+
+- SepsisLabel = 1 (Sepsis risk)
+- SepsisLabel = 0 (No sepsis)
+
+---
+
+## Models
+
+Primary models:
+
+- Logistic Regression (baseline)
+- Random Forest
+- XGBoost (primary model)
+
+Optional comparison:
+
+- LightGBM
+
+Deep learning models are not the primary focus to maintain interpretability and computational efficiency.
+
+---
+
+## Evaluation Metrics
+
+Because the dataset is imbalanced, evaluation will include:
+
 - ROC-AUC
-- PR-AUC (important with rare positives)
-- Recall, Precision, F1 (clinical relevance emphasizes catching positives while controlling false alarms)
+- Precision-Recall AUC
+- Recall (Sensitivity)
+- F1-score
+- Confusion Matrix
 
-### Interpretability
-- Feature importance and SHAP analysis to identify the top contributing physiological signals.
+Clinical emphasis:
+
+- High recall (avoid missing sepsis cases)
+- Controlled false positive rate
 
 ---
 
-## Final Product (Streamlit)
+# Clinical Interpretation
 
-The final deliverable will be an interactive Streamlit web application that serves as a lightweight early-warning prototype for sepsis risk prediction.
+Sepsis is clinically associated with:
 
-The application will allow a user to:
+- Elevated heart rate
+- Low blood pressure
+- Elevated lactate
+- Abnormal white blood cell count
+- Fever or hypothermia
+- Organ dysfunction markers
 
-- Select a Patient_ID and corresponding ICU hour (or use the latest available clinical snapshot)
+Feature importance analysis will identify which variables most influence predictions.
 
-- Automatically generate aggregated clinical features from recent vital signs and laboratory values
+---
 
-- Receive a predicted probability of sepsis along with a binary classification (Sepsis / No Sepsis)
+# Final Product (Streamlit Application)
 
-- View a clear explanation of the most influential clinical variables contributing to the prediction (e.g., elevated heart rate, abnormal MAP, rising lactate)
+The final deliverable will be a Streamlit web application that:
 
-The system is designed to demonstrate how interpretable machine learning models can support clinical decision-making by providing transparent, data-driven risk assessments in an ICU setting.
+1. Uses the held-out test dataset as a simulated ICU patient database.
+2. Allows the user to select:
+   - Patient_ID
+   - ICU hour
+3. Automatically retrieves that patient’s recent clinical data.
+4. Outputs:
+   - Predicted sepsis risk probability
+   - Binary classification (0 or 1)
+5. Displays top contributing features for interpretability.
+
+This application functions as a lightweight early-warning prototype for ICU monitoring.
+
+---
+
+# Expected Contribution
+
+This project demonstrates:
+
+- Handling large-scale healthcare time-series data
+- Transforming time-series into structured ML-ready features
+- Building interpretable clinical risk models
+- Deploying predictive healthcare systems using Streamlit
+
+The system bridges machine learning and clinical decision support in a meaningful and impactful way.
