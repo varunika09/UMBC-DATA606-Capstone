@@ -2,7 +2,8 @@
 
 Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang  
 Author: Varunika Bussa  
-GitHub Repo: https://github.com/varunika09/UMBC-DATA606-Capstone.git 
+GitHub Repo: https://github.com/varunika09/UMBC-DATA606-Capstone.git
+
 LinkedIn: www.linkedin.com/in/varunika-bussa-99a837233  
 Slides: [To be added]  
 YouTube: [To be added]  
