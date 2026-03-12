@@ -262,7 +262,7 @@ Split by **Patient_ID** (not by rows) to ensure no patient appears in more than 
 | Validation (15%) | 6,050 | 233,750 | 7.27% |
 | Test (15%) | 6,051 | 232,024 | 7.27% |
 
-Zero patient overlap between any two splits confirmed. ✅
+Zero patient overlap between any two splits confirmed.
 
 ### Forward Fill Lab Values
 
@@ -289,6 +289,7 @@ Five statistics over the previous 6 hours for all 7 vital signs — **35 new fea
 | Std (e.g. HR_std_6h) | Variability — high std signals physiological instability |
 | Range (e.g. HR_range_6h) | Overall fluctuation magnitude |
 
+```
 ── HR Rolling Features Example (Patient sample, first 8 hours) ──
  Hour      HR  HR_mean_6h  HR_min_6h  HR_max_6h  HR_std_6h  HR_range_6h
     0     NaN         NaN        NaN        NaN      0.000          NaN
@@ -299,6 +300,7 @@ Five statistics over the previous 6 hours for all 7 vital signs — **35 new fea
     5 110.000      97.800     89.000    110.000      8.871       21.000
     6 108.000      99.500     89.000    110.000      8.961       21.000
     7 106.000     101.000     89.000    110.000      9.209       21.000
+```
 
 ### Slope / Trend Features
 
@@ -312,7 +314,7 @@ Linear slope over the previous 6 hours for 9 key features — **9 new features**
 | Lactate_slope_6h | Metabolic failure worsening | Recovering |
 | pH_slope_6h | Recovering from acidosis | Acidosis worsening |
 
-> 📊 *Insert visualization: Resp slope 2-panel chart (raw+mean / slope over time with sepsis onset marker)*
+<img width="1108" height="500" alt="image" src="https://github.com/user-attachments/assets/79896b3c-cd50-4971-8a29-1ae347012e33" />
 
 ### SOFA-Inspired Derived Features
 
