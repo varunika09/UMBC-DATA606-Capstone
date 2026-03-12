@@ -158,7 +158,8 @@ For the 2,932 sepsis patients, the ICU hour at which sepsis was first labeled:
 
 The wide onset range (1–331 hours) is clinically realistic. The model must generalize across both early and late deterioration patterns.
 
-> 📊 *Insert visualization: histogram of sepsis onset hour*
+<img width="1108" height="400" alt="image" src="https://github.com/user-attachments/assets/7fd08ce8-2777-41ee-8783-cad65ea16d78" />
+
 
 ## 3.3 Missingness Analysis
 
@@ -174,7 +175,8 @@ Missing values are a defining characteristic of ICU datasets. Features were cate
 
 **MNAR — Missing Not At Random:** Labs are only ordered when clinicians suspect a problem. A missing Lactate value means the doctor did not order it, which is itself clinical information. This is exploited through missingness flag features (Section 3.7).
 
-> 📊 *Insert visualization: horizontal bar chart of % missing per feature, color-coded by severity*
+<img width="1108" height="700" alt="image" src="https://github.com/user-attachments/assets/25feb18c-c8cb-4134-a54b-f4f494210360" />
+
 
 ## 3.4 Data Cleaning
 
@@ -207,14 +209,17 @@ Mean vital signs compared between sepsis and non-sepsis rows:
 
 No single vital sign strongly separates sepsis from non-sepsis at the individual reading level. The largest difference is Respiratory Rate at +9.45% — insufficient for reliable classification on its own. This confirms that **temporal trends and feature combinations** are required, which motivates the feature engineering in Section 3.7.
 
-> 📊 *Insert visualization: box plots of all 7 vitals split by sepsis status*
+<img width="1108" height="600" alt="image" src="https://github.com/user-attachments/assets/2ce16a43-7a45-40d3-8ea5-c033da838b8a" />
+
 
 ## 3.6 Lab Values and Demographics
 
 **Lab values:** Lactate > 2 mmol/L is a clinical sepsis criterion. Despite 70% missingness, when Lactate is measured it shows a clear rightward shift in sepsis patients. Rising Creatinine (kidney dysfunction) and declining pH (acidosis) are also markers of sepsis-induced organ damage.
 
-> 📊 *Insert visualization: Lactate distribution by sepsis status with 2.0 mmol/L threshold line*
-> 📊 *Insert visualization: box plots for key labs (Lactate, WBC, Creatinine, Glucose, pH, Hgb, Platelets, BUN)*
+<img width="1108" height="400" alt="image" src="https://github.com/user-attachments/assets/388be072-ef08-40e7-a9ff-e510230e17cd" />
+
+<img width="1108" height="600" alt="image" src="https://github.com/user-attachments/assets/fa8acaf5-1be7-46c6-8374-527fcc342b3f" />
+
 
 **ICU stay and demographics:**
 
@@ -226,17 +231,20 @@ No single vital sign strongly separates sepsis from non-sepsis at the individual
 
 Sepsis patients stay ~60% longer in the ICU (58.8h vs 36.9h), reflecting increased clinical complexity.
 
-> 📊 *Insert visualization: ICU stay duration histogram by sepsis status*
+<img width="1108" height="400" alt="image" src="https://github.com/user-attachments/assets/d114b2ed-a4bb-4655-9382-691febe44cd1" />
+
 
 ## 3.7 Temporal Patterns and Correlation Analysis
 
 **Temporal patterns:** The most important EDA finding is that trends over time are more predictive than any single hourly reading. A visualization of Patient 9 (sepsis onset at hour 250) shows HR rising gradually across 150+ hours before onset — a signal invisible in any individual reading but clear in the rolling mean.
 
-> 📊 *Insert visualization: Patient 9 — Raw HR vs HR 6h Rolling Mean vs HR 6h Max with sepsis onset marker*
+<img width="1108" height="500" alt="image" src="https://github.com/user-attachments/assets/c3b91260-5af5-43da-b107-598da2fe2602" />
+
 
 **Correlation analysis:** No feature exceeds 0.13 correlation with SepsisLabel. SBP, MAP, and DBP are highly intercorrelated (0.54–0.85). These weak linear relationships confirm that a machine learning model with engineered temporal features is needed — no simple rule-based threshold will work.
 
-> 📊 *Insert visualization: correlation heatmap — vitals vs SepsisLabel*
+<img width="1108" height="550" alt="image" src="https://github.com/user-attachments/assets/349d71b9-a94e-43c9-a20a-b342da5063c9" />
+
 
 ---
 
@@ -281,7 +289,16 @@ Five statistics over the previous 6 hours for all 7 vital signs — **35 new fea
 | Std (e.g. HR_std_6h) | Variability — high std signals physiological instability |
 | Range (e.g. HR_range_6h) | Overall fluctuation magnitude |
 
-> 📊 *Insert visualization: HR rolling features example table (first 8 hours of a patient)*
+── HR Rolling Features Example (Patient sample, first 8 hours) ──
+ Hour      HR  HR_mean_6h  HR_min_6h  HR_max_6h  HR_std_6h  HR_range_6h
+    0     NaN         NaN        NaN        NaN      0.000          NaN
+    1  97.000      97.000     97.000     97.000      0.000        0.000
+    2  89.000      93.000     89.000     97.000      5.657        8.000
+    3  90.000      92.000     89.000     97.000      4.359        8.000
+    4 103.000      94.750     89.000    103.000      6.551       14.000
+    5 110.000      97.800     89.000    110.000      8.871       21.000
+    6 108.000      99.500     89.000    110.000      8.961       21.000
+    7 106.000     101.000     89.000    110.000      9.209       21.000
 
 ### Slope / Trend Features
 
