@@ -142,7 +142,8 @@ The row-level rate is lower because each patient contributes many hourly rows, m
 
 A model that always predicts "No Sepsis" achieves 92.73% accuracy but catches zero sepsis cases — this is why **Precision-Recall AUC is used as the primary evaluation metric** rather than accuracy.
 
-> 📊 *Insert visualization: side-by-side bar charts — row-level vs patient-level class distribution*
+<img width="1108" height="450" alt="image" src="https://github.com/user-attachments/assets/8c8363aa-dc91-41e7-b78b-b44b66daa4a5" />
+
 
 ## 3.2 Sepsis Onset Timing
 
