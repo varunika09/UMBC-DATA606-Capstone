@@ -3,9 +3,13 @@
 Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang
 
 **Author:** Varunika Bussa
+
 **GitHub Repository:** [https://github.com/varunika09/UMBC-DATA606-Capstone.git](https://github.com/varunika09/UMBC-DATA606-Capstone.git)
+
 **LinkedIn Profile:** [www.linkedin.com/in/varunika-bussa-99a837233](https://www.linkedin.com/in/varunika-bussa-99a837233)
+
 **PowerPoint Presentation:** *(link to be added)*
+
 **YouTube Video:** *(link to be added)*
 
 ---
@@ -530,6 +534,8 @@ Per-patient SHAP waterfall plot with a plain-language reading guide. Red bars sh
 > <img width="2940" height="1594" alt="image" src="https://github.com/user-attachments/assets/4a40849a-9c7b-45c4-913d-2dbdba927e20" />
 
 > <img width="2940" height="1594" alt="image" src="https://github.com/user-attachments/assets/805dda3c-3a0b-434e-96f2-10942a8b28e8" />
+
+> <img width="2940" height="1594" alt="image" src="https://github.com/user-attachments/assets/726568a6-3344-4a6e-aab4-d2d8b1197078" />
 
 > <img width="2940" height="1594" alt="image" src="https://github.com/user-attachments/assets/ed60a53f-76e9-4b0a-ba26-2cd27e11d0a3" />
 
