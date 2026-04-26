@@ -18,7 +18,7 @@ Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang
 
 ## What is this project about?
 
-This project focuses on the early prediction of sepsis in ICU patients using machine learning. Sepsis is a life-threatening condition caused by the body's extreme response to infection. If not detected early, it can lead to organ failure and death — early intervention significantly improves survival rates.
+This project focuses on the early prediction of sepsis in ICU patients using machine learning. Sepsis is a life-threatening condition caused by the body's extreme response to infection. If not detected early, it can lead to organ failure and death, early intervention significantly improves survival rates.
 
 The goal is to build a predictive model that estimates whether a patient is at risk of developing sepsis **within the next 6 hours** using routinely collected ICU vital signs and laboratory measurements, and to deploy it as an interpretable early-warning application.
 
@@ -26,7 +26,7 @@ The goal is to build a predictive model that estimates whether a patient is at r
 
 - Sepsis affects approximately **1.7 million Americans annually** and causes **270,000 deaths per year** (CDC)
 - It is a leading cause of ICU mortality worldwide
-- Existing clinical scoring systems (SOFA, qSOFA, SIRS) are **reactive** — they confirm sepsis after it develops, not before
+- Existing clinical scoring systems (SOFA, qSOFA, SIRS) are **reactive** - they confirm sepsis after it develops, not before
 - Each hour of delayed treatment increases mortality by **4–8%**
 - Hospitals collect continuous patient monitoring data, but automated early-warning systems are not always implemented
 - A machine learning-based system can detect subtle deterioration patterns **hours before** clinical diagnosis, enabling earlier intervention
@@ -66,7 +66,7 @@ Each row represents **one ICU hour for one patient**. A patient with a 50-hour I
 
 ## Data Dictionary
 
-### Vital Signs — recorded approximately every hour
+### Vital Signs - recorded approximately every hour
 
 | Column | Type | Definition |
 |---|---|---|
