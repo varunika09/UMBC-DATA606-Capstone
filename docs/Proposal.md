@@ -604,5 +604,3 @@ Our precision of 16.4% exceeds the Epic Sepsis Model (~12%), one of the most wid
 8. Wong, A., et al. (2021). "External Validation of a Widely Implemented Proprietary Sepsis Prediction Model in Hospitalized Patients." JAMA Internal Medicine, 181(8), 1065-1070.
 
 9. PhysioNet Challenge 2019 Dataset: https://physionet.org/content/challenge-2019/1.0.0/
-
-10. Best published result on PhysioNet 2019: https://github.com/sedab/EarlySepsisPrediction
