@@ -551,11 +551,8 @@ This project developed a complete machine learning pipeline for early sepsis pre
 
 | System | ROC-AUC | Precision | Notes |
 |---|---|---|---|
-| Epic Sepsis Model (deployed) | — | ~12% | Commercial clinical AI, widely deployed in US hospitals |
 | RNN best result (PhysioNet 2019) | 0.82 | 21% | Best published result on this exact dataset |
 | XGBoost Tuned (this project) | 0.806 | 16.4% | Interpretable tabular ML, no deep learning |
-
-Our precision of 16.4% exceeds the Epic Sepsis Model (~12%), one of the most widely deployed clinical AI tools in US hospitals. The model matches the best published result on this dataset using interpretable tabular ML.
 
 ## Limitations
 
