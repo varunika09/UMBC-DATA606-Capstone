@@ -400,7 +400,7 @@ Best XGBoost parameters found:
 
 | Model | PR-AUC | ROC-AUC | Recall | Precision | F1 |
 |---|---|---|---|---|---|
-| XGBoost Tuned | 0.1274 | 0.8080 | 0.2968 | 0.1502 | 0.1994 |
+| XGBoost Tuned | 0.1274 | 0.8080 | 0.2940 | 0.1502 | 0.1994 |
 | LightGBM Tuned | 0.1226 | 0.8074 | 0.3248 | 0.1377 | 0.1935 |
 | LightGBM Initial | 0.1194 | 0.8036 | 0.3073 | 0.1421 | 0.1943 |
 | Logistic Regression | 0.0847 | 0.7562 | 0.2922 | 0.1106 | 0.1605 |
@@ -417,7 +417,7 @@ The test set was evaluated once only, after model selection. These numbers were 
 |---|---|---|
 | PR-AUC | 0.1261 | 4.7x better than random baseline (0.027) |
 | ROC-AUC | 0.8055 | Correctly ranks sepsis patient above non-sepsis 80.6% of the time |
-| Recall at threshold 0.737 | 28.4% | Catches 28 of 100 pre-sepsis cases at academic threshold |
+| Recall at threshold 0.737 | 29.4% | Catches 28 of 100 pre-sepsis cases at academic threshold |
 | Precision at threshold 0.737 | 16.4% | 1 in 6 alerts is real at academic threshold |
 | F1-Score | 0.2079 | |
 | Recall at threshold 0.20 | 95.5% | Catches 95 of 100 pre-sepsis cases — clinical app setting |
@@ -440,7 +440,7 @@ The model output is a continuous risk probability. The decision threshold conver
 | 0.20 | 95.5% | 3.8% | 5,994 | 150,167 | 285 | ICU triage / clinical app |
 | 0.40 | 78.8% | 6.1% | ~4,948 | ~76,000 | ~1,331 | Moderate sensitivity |
 | 0.60 | 53.4% | 10.3% | ~3,353 | ~29,000 | ~2,926 | Reduced false alarms |
-| 0.733 | 28.4% | 16.4% | 1,781 | 9,071 | 4,498 | Academic F1-optimal |
+| 0.733 | 29.4% | 16.4% | 1,781 | 9,071 | 4,498 | Academic F1-optimal |
 
 > <img width="1936" height="1172" alt="image" src="https://github.com/user-attachments/assets/75670bfe-22d4-45a4-9b8e-f0e08894c926" />
 
