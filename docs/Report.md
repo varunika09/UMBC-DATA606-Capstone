@@ -8,9 +8,9 @@ Prepared for UMBC Data Science Master Degree Capstone by Dr. Chaojie (Jay) Wang
 
 **LinkedIn Profile:** [www.linkedin.com/in/varunika-bussa-99a837233](https://www.linkedin.com/in/varunika-bussa-99a837233)
 
-**PowerPoint Presentation:** *(link to be added)*
+**PowerPoint Presentation:** [https://umbc.box.com/s/gwtzvfacw4q4qnqhwtphti71xketyxf9]
 
-**YouTube Video:** **[https://youtu.be/l13cPfsHHZc]**
+**YouTube Video:** [https://youtu.be/l13cPfsHHZc]
 
 ---
 
